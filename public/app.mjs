@@ -38,7 +38,7 @@ function run(){clear();$('status').classList.remove('error');
   try{read();result=plan($('date').value,members.map(m=>({...m,weekends:$('weekends').checked})),Number($('duration').value));
     $('empty-art').hidden=true;$('heading').textContent=result.matches?'You have common ground.':'No full overlap on this day.';
     $('explanation').textContent=result.matches?`${result.matches} start times fit everyone’s full meeting. Earliest shared windows shown below.`:'Closest compromises are shown below. Check the outside-hours labels before choosing.';
-    $('slots').replaceChildren(...result.slots.slice(0,6).map(slot=>{
+    $('slots').replaceChildren(...(result.matches?result.slots.filter(slot=>slot.available===members.length):result.slots).slice(0,6).map(slot=>{
       const button=el('button',undefined,'slot'+(slot.available===members.length?'':' compromise'));button.type='button';
       button.append(el('strong',new Date(slot.start).toISOString().slice(11,16)),el('small','UTC start'),el('small',`${slot.available}/${members.length} fully within hours`));button.addEventListener('click',()=>choose(slot));return button;
     }));choose(result.slots[0]);$('status').textContent=`${$('date').value} UTC · Starts every 30 minutes · Full duration checked`;
@@ -50,3 +50,5 @@ $('add').addEventListener('click',()=>{read();if(members.length<6)members.push({
 $('demo').addEventListener('click',()=>{members=[{zone:'America/New_York',start:'09:00',end:'17:00'},{zone:'Europe/London',start:'09:00',end:'18:00'},{zone:'Asia/Kolkata',start:'11:00',end:'20:00'}];$('date').value=nextDay();$('duration').value='60';$('weekends').checked=false;renderMembers();run();});
 $('download').addEventListener('click',()=>{if(!selected)return;const url=URL.createObjectURL(new Blob([calendar(selected,result.members)],{type:'text/calendar'}));const link=el('a');link.href=url;link.download='commonhour-meeting.ics';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 renderMembers();run();
+
+
