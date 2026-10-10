@@ -1,5 +1,7 @@
 # Commonhour
 
+[Open Commonhour](https://commonhour-seven.vercel.app/) · [Source code](https://github.com/KingReaper6940/commonhour)
+
 Find a considerate meeting time across time zones. Set local working hours,
 compare full-meeting overlap, and take a calendar event with you.
 
@@ -68,3 +70,6 @@ Import this repository into Vercel. `vercel.json` configures `npm run build` and
 The tests cover DST changes, fractional offsets, weekend boundaries, overnight
 hours, full-duration checks, validation, UTC event timestamps and calendar folding.
 GitHub Actions checks Node 20/22 on Windows and Linux.
+
+See [an example calendar event](docs/example-meeting.ics) for the default three-city comparison.
+
